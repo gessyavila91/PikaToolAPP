@@ -1,0 +1,563 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		48FC34752CC1B2000039FCA7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 48FC345C2CC1B1FF0039FCA7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 48FC34632CC1B1FF0039FCA7;
+			remoteInfo = PikaToolAPP;
+		};
+		48FC347F2CC1B2000039FCA7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 48FC345C2CC1B1FF0039FCA7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 48FC34632CC1B1FF0039FCA7;
+			remoteInfo = PikaToolAPP;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		48FC34642CC1B1FF0039FCA7 /* PikaToolAPP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PikaToolAPP.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		48FC34742CC1B2000039FCA7 /* PikaToolAPPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PikaToolAPPTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		48FC347E2CC1B2000039FCA7 /* PikaToolAPPUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PikaToolAPPUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		48FC34662CC1B1FF0039FCA7 /* PikaToolAPP */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = PikaToolAPP;
+			sourceTree = "<group>";
+		};
+		48FC34772CC1B2000039FCA7 /* PikaToolAPPTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = PikaToolAPPTests;
+			sourceTree = "<group>";
+		};
+		48FC34812CC1B2000039FCA7 /* PikaToolAPPUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = PikaToolAPPUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		48FC34612CC1B1FF0039FCA7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48FC34712CC1B2000039FCA7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48FC347B2CC1B2000039FCA7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		48FC345B2CC1B1FF0039FCA7 = {
+			isa = PBXGroup;
+			children = (
+				48FC34662CC1B1FF0039FCA7 /* PikaToolAPP */,
+				48FC34772CC1B2000039FCA7 /* PikaToolAPPTests */,
+				48FC34812CC1B2000039FCA7 /* PikaToolAPPUITests */,
+				48FC34652CC1B1FF0039FCA7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		48FC34652CC1B1FF0039FCA7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				48FC34642CC1B1FF0039FCA7 /* PikaToolAPP.app */,
+				48FC34742CC1B2000039FCA7 /* PikaToolAPPTests.xctest */,
+				48FC347E2CC1B2000039FCA7 /* PikaToolAPPUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		48FC34632CC1B1FF0039FCA7 /* PikaToolAPP */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 48FC34882CC1B2000039FCA7 /* Build configuration list for PBXNativeTarget "PikaToolAPP" */;
+			buildPhases = (
+				48FC34602CC1B1FF0039FCA7 /* Sources */,
+				48FC34612CC1B1FF0039FCA7 /* Frameworks */,
+				48FC34622CC1B1FF0039FCA7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				48FC34662CC1B1FF0039FCA7 /* PikaToolAPP */,
+			);
+			name = PikaToolAPP;
+			packageProductDependencies = (
+			);
+			productName = PikaToolAPP;
+			productReference = 48FC34642CC1B1FF0039FCA7 /* PikaToolAPP.app */;
+			productType = "com.apple.product-type.application";
+		};
+		48FC34732CC1B2000039FCA7 /* PikaToolAPPTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 48FC348B2CC1B2000039FCA7 /* Build configuration list for PBXNativeTarget "PikaToolAPPTests" */;
+			buildPhases = (
+				48FC34702CC1B2000039FCA7 /* Sources */,
+				48FC34712CC1B2000039FCA7 /* Frameworks */,
+				48FC34722CC1B2000039FCA7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				48FC34762CC1B2000039FCA7 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				48FC34772CC1B2000039FCA7 /* PikaToolAPPTests */,
+			);
+			name = PikaToolAPPTests;
+			packageProductDependencies = (
+			);
+			productName = PikaToolAPPTests;
+			productReference = 48FC34742CC1B2000039FCA7 /* PikaToolAPPTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		48FC347D2CC1B2000039FCA7 /* PikaToolAPPUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 48FC348E2CC1B2000039FCA7 /* Build configuration list for PBXNativeTarget "PikaToolAPPUITests" */;
+			buildPhases = (
+				48FC347A2CC1B2000039FCA7 /* Sources */,
+				48FC347B2CC1B2000039FCA7 /* Frameworks */,
+				48FC347C2CC1B2000039FCA7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				48FC34802CC1B2000039FCA7 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				48FC34812CC1B2000039FCA7 /* PikaToolAPPUITests */,
+			);
+			name = PikaToolAPPUITests;
+			packageProductDependencies = (
+			);
+			productName = PikaToolAPPUITests;
+			productReference = 48FC347E2CC1B2000039FCA7 /* PikaToolAPPUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		48FC345C2CC1B1FF0039FCA7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					48FC34632CC1B1FF0039FCA7 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					48FC34732CC1B2000039FCA7 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 48FC34632CC1B1FF0039FCA7;
+					};
+					48FC347D2CC1B2000039FCA7 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 48FC34632CC1B1FF0039FCA7;
+					};
+				};
+			};
+			buildConfigurationList = 48FC345F2CC1B1FF0039FCA7 /* Build configuration list for PBXProject "PikaToolAPP" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 48FC345B2CC1B1FF0039FCA7;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 48FC34652CC1B1FF0039FCA7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				48FC34632CC1B1FF0039FCA7 /* PikaToolAPP */,
+				48FC34732CC1B2000039FCA7 /* PikaToolAPPTests */,
+				48FC347D2CC1B2000039FCA7 /* PikaToolAPPUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		48FC34622CC1B1FF0039FCA7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48FC34722CC1B2000039FCA7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48FC347C2CC1B2000039FCA7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		48FC34602CC1B1FF0039FCA7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48FC34702CC1B2000039FCA7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48FC347A2CC1B2000039FCA7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		48FC34762CC1B2000039FCA7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 48FC34632CC1B1FF0039FCA7 /* PikaToolAPP */;
+			targetProxy = 48FC34752CC1B2000039FCA7 /* PBXContainerItemProxy */;
+		};
+		48FC34802CC1B2000039FCA7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 48FC34632CC1B1FF0039FCA7 /* PikaToolAPP */;
+			targetProxy = 48FC347F2CC1B2000039FCA7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		48FC34862CC1B2000039FCA7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		48FC34872CC1B2000039FCA7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		48FC34892CC1B2000039FCA7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"PikaToolAPP/Preview Content\"";
+				DEVELOPMENT_TEAM = 2YJ69D5U44;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gessyavila.PikaToolAPP;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		48FC348A2CC1B2000039FCA7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"PikaToolAPP/Preview Content\"";
+				DEVELOPMENT_TEAM = 2YJ69D5U44;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gessyavila.PikaToolAPP;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		48FC348C2CC1B2000039FCA7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2YJ69D5U44;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gessyavila.PikaToolAPPTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PikaToolAPP.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PikaToolAPP";
+			};
+			name = Debug;
+		};
+		48FC348D2CC1B2000039FCA7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2YJ69D5U44;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gessyavila.PikaToolAPPTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PikaToolAPP.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PikaToolAPP";
+			};
+			name = Release;
+		};
+		48FC348F2CC1B2000039FCA7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2YJ69D5U44;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gessyavila.PikaToolAPPUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PikaToolAPP;
+			};
+			name = Debug;
+		};
+		48FC34902CC1B2000039FCA7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2YJ69D5U44;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gessyavila.PikaToolAPPUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PikaToolAPP;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		48FC345F2CC1B1FF0039FCA7 /* Build configuration list for PBXProject "PikaToolAPP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48FC34862CC1B2000039FCA7 /* Debug */,
+				48FC34872CC1B2000039FCA7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		48FC34882CC1B2000039FCA7 /* Build configuration list for PBXNativeTarget "PikaToolAPP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48FC34892CC1B2000039FCA7 /* Debug */,
+				48FC348A2CC1B2000039FCA7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		48FC348B2CC1B2000039FCA7 /* Build configuration list for PBXNativeTarget "PikaToolAPPTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48FC348C2CC1B2000039FCA7 /* Debug */,
+				48FC348D2CC1B2000039FCA7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		48FC348E2CC1B2000039FCA7 /* Build configuration list for PBXNativeTarget "PikaToolAPPUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48FC348F2CC1B2000039FCA7 /* Debug */,
+				48FC34902CC1B2000039FCA7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 48FC345C2CC1B1FF0039FCA7 /* Project object */;
+}
