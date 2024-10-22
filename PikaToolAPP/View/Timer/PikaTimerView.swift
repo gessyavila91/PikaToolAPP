@@ -91,7 +91,7 @@ class PikaTimer: ObservableObject {
             if self.millisecondsToCompletion <= 0 {
                 print("Main Timer completado, reiniciando PreTimer")
                 self.timer?.cancel()
-                self.runPreTimer()
+                // self.runPreTimer()
             }
         }
 
@@ -108,17 +108,36 @@ class PikaTimer: ObservableObject {
 
 struct PikaTimerView: View {
     @State var preTimer:Int = 3000
-    @State var targetFrame:Int = 3000000
+    @State var targetFrame:Int = 4500
     @State var calibration:Int = 0
     @State var frameHit:Int = 0
     
+    @StateObject private var modelTimer = TimerViewModel()
     @StateObject private var model = PikaTimer()
     
     var body: some View {
         
         VStack{
-            Text(model.millisecondsToCompletion.asTimestamp)
-                .font(.largeTitle)
+            ZStack {
+                withAnimation {
+                    CircularProgressView(
+                        progress: $model.progress,
+                        stepProgress: $model.stepProgress)
+                }
+
+                VStack {
+                    Text(model.millisecondsToCompletion.asTimestamp)
+                        .font(.largeTitle)
+                    HStack {
+                        Image(systemName: "bell.fill")
+                        Text(modelTimer.completionDate, format: .dateTime.hour().minute())
+                    }
+                }
+            }
+            .frame(width: 360, height: 255)
+            .padding(.all, 32)
+            
+            
             List{
                 HStack{
                     Text("Pre timer")
@@ -154,14 +173,13 @@ struct PikaTimerView: View {
                     print("Start")
                     model.start(preTimer: preTimer, targetFrame: targetFrame, calibracion: calibration, steps: 6, maxSteps: 6)
                 }
-
                 .buttonStyle(StartButtonStyle())
                 
                 Spacer()
                 
                 Button("Cancel") {
                     print("Cancel")
-                    PikaTimer().stop()
+                    model.stop()
                 }
                 .buttonStyle(CancelButtonStyle())
 
@@ -170,7 +188,6 @@ struct PikaTimerView: View {
         }
     }
 }
-
 
 #Preview {
     PikaTimerView()
