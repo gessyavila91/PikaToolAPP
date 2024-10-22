@@ -126,7 +126,8 @@ var timerControls: some View {
         switch model.state {
         case .cancelled:
             Button("Start") {
-                model.state = .active
+//                model.state = .active
+                
             }
             .buttonStyle(StartButtonStyle())
 //        case .paused:
