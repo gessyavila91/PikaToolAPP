@@ -21,15 +21,18 @@ class PikaTimer: ObservableObject {
     
     @Published var completionDate = Date.now
 
-    private var timer: DispatchSourceTimer?
+    private var preTimerDS: DispatchSourceTimer?
+    private var mainTimerDS: DispatchSourceTimer?
+    private var endTimerDS: DispatchSourceTimer?
+    
     private var preTimer: Int = 0
     private var targetFrame: Int = 0
     private var calibracion: Int = 0
     private var steps: Int = 0
-    private var maxSteps: Int = 10
+    private var maxSteps: Int = 6
 
     func start(preTimer: Int, targetFrame: Int, calibracion: Int, steps: Int, maxSteps: Int) {
-        stop() // Cancelar el temporizador previo si existe
+        stop()
         
         self.preTimer = preTimer
         self.targetFrame = targetFrame
@@ -38,6 +41,7 @@ class PikaTimer: ObservableObject {
         self.maxSteps = maxSteps
 
         self.millisecondsToCompletion = targetFrame + calibracion
+        updateCompletionDate()
         runPreTimer()
     }
 
@@ -45,68 +49,62 @@ class PikaTimer: ObservableObject {
     private func runPreTimer() {
         print("Iniciando preTimer")
 
-        timer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
-        timer?.schedule(deadline: .now(), repeating: .milliseconds(500))
+        preTimerDS = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
+        preTimerDS?.schedule(deadline: .now(), repeating: .milliseconds(500))
         var stepCount = 0
 
-        timer?.setEventHandler { [weak self] in
+        preTimerDS?.setEventHandler { [weak self] in
             guard let self else { return }
-
-            stepCount += 1
+            
             DispatchQueue.main.async {
-//                self.stepProgress = Float(stepCount) / Float(self.maxSteps)
                 self.stepProgress = Float((Float(stepCount) / Float(self.maxSteps)).rounded(toPlaces: 2))
             }
 
-            // Imprimir el progreso de los steps
-            print("Step Progress: \(self.stepProgress)")
-
             if stepCount >= self.maxSteps {
-                print("StepCount ha alcanzado el máximo: \(self.maxSteps)")
-                self.timer?.cancel()
-                print("PreTimer completado, iniciando Main Timer")
                 self.runMainTimer()
+                self.preTimerDS?.cancel()
             }
+            stepCount += 1
         }
-
         // Asegúrate de reanudar el temporizador
         print("Reanudando preTimer")
-        timer?.resume()
+        preTimerDS?.resume()
     }
     
-    private func runPreEndAnnouncement() {
-        // Aquí emulamos el comportamiento del preTimer al final del main timer
-        var stepCount = 0
+    private func runEndTimer(){
+        var endStepCount = self.maxSteps
+        
+        endTimerDS = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
+        endTimerDS?.schedule(deadline: .now(), repeating: .milliseconds(500))
 
-        timer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
-        timer?.schedule(deadline: .now(), repeating: .milliseconds(500))
-
-        timer?.setEventHandler { [weak self] in
+        endTimerDS?.setEventHandler { [weak self] in
             guard let self else { return }
-
-            stepCount += 1
-            self.stepProgress = Float(stepCount) / Float(self.maxSteps)
-            print("Step Progress (Final Announcement): \(self.stepProgress)")
-
-            if stepCount >= self.maxSteps {
-                print("Final Announcement completado.")
-                self.timer?.cancel()
+            
+            DispatchQueue.main.async {
+                self.stepProgress = Float((Float(endStepCount) / Float(self.maxSteps)).rounded(toPlaces: 2))
             }
-        }
 
-        timer?.resume()
+            if stepProgress <= 0 {
+                self.endTimerDS?.cancel()
+                self.stop()
+            }
+            endStepCount -= 1
+            print("stepProgress: \(stepProgress)")
+        }
+        print("Reanudando EndTimer")
+        endTimerDS?.resume()
     }
 
     private func runMainTimer() {
-        print("Iniciando Main Timer")
-
         let totalTargetTime = targetFrame + calibracion
         let startTime = DispatchTime.now()
+        
+        var endTimerFlag = false
 
-        timer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
-        timer?.schedule(deadline: .now(), repeating: .milliseconds(1))
+        mainTimerDS = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
+        mainTimerDS?.schedule(deadline: .now(), repeating: .milliseconds(1))
 
-        timer?.setEventHandler { [weak self] in
+        mainTimerDS?.setEventHandler { [weak self] in
             guard let self else { return }
 
             let elapsed = DispatchTime.now().uptimeNanoseconds - startTime.uptimeNanoseconds
@@ -120,26 +118,35 @@ class PikaTimer: ObservableObject {
                 }
             }
 
-            // Imprimir los milisegundos restantes
-            print("Milliseconds to completion: \(self.millisecondsToCompletion)")
-            print("Progreso general: \(self.progress)")
-
-            if self.millisecondsToCompletion <= 0 {
-                print("Main Timer completado, reiniciando PreTimer")
-                self.timer?.cancel()
-                // self.runPreTimer()
+            if (self.millisecondsToCompletion <= (self.maxSteps*500) && !endTimerFlag) {
+                print("Main Timer terminando: \(self.millisecondsToCompletion) iniciando endTimer")
+                endTimerFlag = true
+                runEndTimer()
             }
         }
 
         // Asegúrate de reanudar el temporizador
         print("Reanudando Main Timer")
-        timer?.resume()
+        mainTimerDS?.resume()
     }
     func stop() {
-        timer?.cancel()
+        preTimerDS?.cancel()
+        mainTimerDS?.cancel()
+        endTimerDS?.cancel()
+        self.millisecondsToCompletion = 0
+        self.progress = 0.0
+        self.stepProgress = 0.0
+        
+        completionDate = Date.now
+
+        self.preTimer = 0
+        self.targetFrame = 0
+        self.calibracion = 0
+        self.steps = 0
+        self.maxSteps  = 6
     }
     func updateCompletionDate() {
-        completionDate = Date.now.addingTimeInterval(Double(millisecondsToCompletion))
+        completionDate = Date.now.addingTimeInterval(Double(self.targetFrame))
     }
 }
 
@@ -147,7 +154,7 @@ class PikaTimer: ObservableObject {
 
 struct PikaTimerView: View {
     @State var preTimer:Int = 3_000
-    @State var targetFrame:Int = 450_000
+    @State var targetFrame:Int = 10_000
     @State var calibration:Int = 0
     @State var frameHit:Int = 0
     
@@ -166,6 +173,7 @@ struct PikaTimerView: View {
                 VStack {
                     Text(model.millisecondsToCompletion.asTimestamp)
                         .font(.largeTitle)
+                        .monospaced()
                     HStack {
                         Image(systemName: "bell.fill")
                         Text(model.completionDate, format: .dateTime.hour().minute())
