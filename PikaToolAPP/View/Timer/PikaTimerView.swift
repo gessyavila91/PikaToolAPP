@@ -31,6 +31,12 @@ class PikaTimer: ObservableObject {
     private var calibracion: Int = 0
     private var steps: Int = 0
     private var maxSteps: Int = 6
+    
+    enum PikaTimerState {
+        case active
+        case resumed
+        case cancelled
+    }
 
     func start(preTimer: Int, targetFrame: Int, calibracion: Int, steps: Int, maxSteps: Int) {
         stop()
@@ -46,86 +52,57 @@ class PikaTimer: ObservableObject {
         runPreTimer()
     }
 
+    // Function to run a timer that counts steps up to maxSteps
+    private func runTimer(isPreTimer: Bool) {
+        let timerType = isPreTimer ? "preTimer" : "endTimer"
+        print("Starting \(timerType)")
 
-    // Function to run the Pre-Timer, which counts up from 0 to maxSteps
-    private func runPreTimer() {
-        print("Starting preTimer")
-        
-        // Create the timer source for the preTimer using a global queue
-        preTimerDS = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
-        
-        // Schedule the timer to fire every 500 milliseconds
-        preTimerDS?.schedule(deadline: .now(), repeating: .milliseconds(500))
-        var stepCount = 0  // Counter for tracking the steps of the preTimer
+        // Reset step progress on the main thread when the timer starts
+        DispatchQueue.main.async {
+            self.stepProgress = 0
+        }
 
-        // Event handler for the timer, triggered at each interval
-        preTimerDS?.setEventHandler { [weak self] in
+        let timerSource = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
+        timerSource.schedule(deadline: .now(), repeating: .milliseconds(500))
+        var stepCount = 0
+
+        timerSource.setEventHandler { [weak self] in
             guard let self else { return }
 
-            // Update the UI and step progress on the main thread
             DispatchQueue.main.async {
                 self.stepProgress = Float((Float(stepCount) / Float(self.maxSteps)).rounded(toPlaces: 2))
-                stepCount += 1  // Increment the step count
-                
-                // Play a beep sound for every step after the first one
+                stepCount += 1
+
                 if stepCount > 1 {
                     self.playBeepSound()
                 }
             }
 
-            // If the stepCount reaches maxSteps, start the main timer and cancel the preTimer
+            // If maxSteps is reached, either start main timer or stop
             if stepCount == self.maxSteps {
-                self.runMainTimer()
-                self.preTimerDS?.cancel()
+                timerSource.cancel()
+                isPreTimer ? self.runMainTimer() : self.stop()
             }
         }
 
-        // Resume the preTimer to start the countdown
-        print("Resuming preTimer")
-        preTimerDS?.resume()
+        print("Resuming \(timerType)")
+        timerSource.resume()
+
+        // Assign the created timer source to the corresponding variable
+        if isPreTimer {
+            preTimerDS = timerSource
+        } else {
+            endTimerDS = timerSource
+        }
     }
 
-    // Function to run the End-Timer, which counts up from 0 to maxSteps, similar to the preTimer
-    private func runEndTimer(){
-        print("Starting EndTimer")
-        
-        // Reset step progress on the main thread when the endTimer starts
-        DispatchQueue.main.async {
-            self.stepProgress = 0
-        }
+    // Wrapper functions for running the preTimer and endTimer
+    private func runPreTimer() {
+        runTimer(isPreTimer: true)
+    }
 
-        // Create the timer source for the endTimer using a global queue
-        endTimerDS = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
-        
-        // Schedule the timer to fire every 500 milliseconds
-        endTimerDS?.schedule(deadline: .now(), repeating: .milliseconds(500))
-        var endStepCount = 0  // Counter for tracking the steps of the endTimer
-
-        // Event handler for the timer, triggered at each interval
-        endTimerDS?.setEventHandler { [weak self] in
-            guard let self else { return }
-
-            // Update the UI and step progress on the main thread
-            DispatchQueue.main.async {
-                self.stepProgress = Float((Float(endStepCount) / Float(self.maxSteps)).rounded(toPlaces: 2))
-                endStepCount += 1  // Increment the step count
-                
-                // Play a beep sound for every step after the first one
-                if endStepCount > 1 {
-                    self.playBeepSound()
-                }
-            }
-
-            // If the endStepCount reaches maxSteps, stop the endTimer and reset the state
-            if endStepCount == self.maxSteps {
-                self.endTimerDS?.cancel()
-                self.stop()
-            }
-        }
-
-        // Resume the endTimer to start the countdown
-        print("Resuming EndTimer")
-        endTimerDS?.resume()
+    private func runEndTimer() {
+        runTimer(isPreTimer: false)
     }
 
 
