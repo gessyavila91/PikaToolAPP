@@ -9,15 +9,15 @@ import SwiftUI
 import Foundation
 
 struct SettingsVew: View {
+    @StateObject var timerSettings = TimerSettingsStruct.default
+
     var body: some View {
         NavigationSplitView {
             List {
                 NavigationLink("Action", destination: ActionSettingsView(
                     selectedActionSound: .constant(.default)
                 ))
-                NavigationLink("Timer", destination: TimerSettingsVew(
-                    timerSettings: .constant(.default)
-                ))
+                NavigationLink("Timer", destination: TimerSettingsVew(timerSettings: timerSettings))
                 Spacer()
                 NavigationLink("Profiles", destination: ProfilesSettingsVew())
             }
@@ -68,21 +68,20 @@ struct ActionSettingsView: View {
     }
 }
 
-struct TimerSettingsStruct {
-    var settingsFPS = TimerSettingsFPS_enum.GBA_FPS
-    var settingsConsole = Console_enum.GBA
+class TimerSettingsStruct: ObservableObject {
+    @Published var settingsFPS: TimerSettingsFPS_enum = .GBA_FPS
+    @Published var settingsConsole: Console_enum = .GBA
     
-    static let `default` = TimerSettingsStruct(
-        settingsFPS: .GBA_FPS,
-        settingsConsole: .GBA)
+    static let `default` = TimerSettingsStruct()
     
     enum TimerSettingsFPS_enum: Double, CaseIterable {
         case GBA_FPS = 59.7275
         case NDS_SLOT1_FPS = 59.8261
         case NDS_SLOT2_FPS = 59.6555
+        case CUSTOM = 60.00
 
         func framerate() -> Double {
-            1000 / self.rawValue
+            return 1000 / self.rawValue
         }
         
         func stringValue() -> String {
@@ -90,6 +89,7 @@ struct TimerSettingsStruct {
             case .GBA_FPS: return "GBA_FPS"
             case .NDS_SLOT1_FPS: return "NDS_SLOT1_FPS"
             case .NDS_SLOT2_FPS: return "NDS_SLOT2_FPS"
+            case .CUSTOM: return "CUSTOM"
             }
         }
     }
@@ -115,8 +115,9 @@ struct TimerSettingsStruct {
     }
 }
 
+
 struct TimerSettingsVew: View {
-    @Binding var timerSettings: TimerSettingsStruct
+    @ObservedObject var timerSettings: TimerSettingsStruct
     
     var body: some View {
         VStack {
@@ -131,6 +132,7 @@ struct TimerSettingsVew: View {
         }
     }
 }
+
 
 
 struct ProfilesSettingsVew: View {
