@@ -26,7 +26,7 @@ struct CircularProgressView: View {
                 .stroke(style: StrokeStyle(lineWidth: 8.0, lineCap: .round, lineJoin: .round))
                 .foregroundColor(Color("TimerButtonStart"))
                 .rotationEffect(Angle(degrees: 270))
-                .animation(.linear(duration: 0.5), value: progress)
+                .animation(.linear(duration: 0.1), value: progress)
 
             // Tercer círculo (progreso de pasos, más pequeño)
             Circle()
@@ -34,7 +34,7 @@ struct CircularProgressView: View {
                 .stroke(style: StrokeStyle(lineWidth: 15.0, lineCap: .round, lineJoin: .round))
                 .foregroundColor(Color("TimerButtonStep"))
                 .rotationEffect(Angle(degrees: 270))
-                .animation(.linear(duration: 0.01), value: stepProgress)
+                .animation(.linear(duration: 0.1), value: stepProgress)
                 .scaleEffect(0.9) // Hacer el círculo más pequeño
         }
     }

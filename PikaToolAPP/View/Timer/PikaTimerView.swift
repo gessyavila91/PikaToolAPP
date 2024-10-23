@@ -7,10 +7,19 @@
 
 import SwiftUI
 
+extension Float {
+    func rounded(toPlaces places: Int) -> Float {
+        let divisor = pow(10.0, Float(places))
+        return (self * divisor).rounded() / divisor
+    }
+}
+
 class PikaTimer: ObservableObject {
     @Published var millisecondsToCompletion: Int = 0
     @Published var progress: Float = 0.0
     @Published var stepProgress: Float = 0.0
+    
+    @Published var completionDate = Date.now
 
     private var timer: DispatchSourceTimer?
     private var preTimer: Int = 0
@@ -45,7 +54,8 @@ class PikaTimer: ObservableObject {
 
             stepCount += 1
             DispatchQueue.main.async {
-                self.stepProgress = Float(stepCount) / Float(self.maxSteps)
+//                self.stepProgress = Float(stepCount) / Float(self.maxSteps)
+                self.stepProgress = Float((Float(stepCount) / Float(self.maxSteps)).rounded(toPlaces: 2))
             }
 
             // Imprimir el progreso de los steps
@@ -61,6 +71,29 @@ class PikaTimer: ObservableObject {
 
         // Asegúrate de reanudar el temporizador
         print("Reanudando preTimer")
+        timer?.resume()
+    }
+    
+    private func runPreEndAnnouncement() {
+        // Aquí emulamos el comportamiento del preTimer al final del main timer
+        var stepCount = 0
+
+        timer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
+        timer?.schedule(deadline: .now(), repeating: .milliseconds(500))
+
+        timer?.setEventHandler { [weak self] in
+            guard let self else { return }
+
+            stepCount += 1
+            self.stepProgress = Float(stepCount) / Float(self.maxSteps)
+            print("Step Progress (Final Announcement): \(self.stepProgress)")
+
+            if stepCount >= self.maxSteps {
+                print("Final Announcement completado.")
+                self.timer?.cancel()
+            }
+        }
+
         timer?.resume()
     }
 
@@ -81,7 +114,10 @@ class PikaTimer: ObservableObject {
 
             DispatchQueue.main.async {
                 self.millisecondsToCompletion = max(0, totalTargetTime - elapsedMs)
-                self.progress = Float(self.millisecondsToCompletion) / Float(totalTargetTime)
+                
+                if abs(self.progress - Float(self.millisecondsToCompletion) / Float(totalTargetTime)) > 0.001 {
+                    self.progress = Float((Float(self.millisecondsToCompletion) / Float(totalTargetTime)).rounded(toPlaces: 2))
+                }
             }
 
             // Imprimir los milisegundos restantes
@@ -102,17 +138,19 @@ class PikaTimer: ObservableObject {
     func stop() {
         timer?.cancel()
     }
+    func updateCompletionDate() {
+        completionDate = Date.now.addingTimeInterval(Double(millisecondsToCompletion))
+    }
 }
 
 
 
 struct PikaTimerView: View {
-    @State var preTimer:Int = 3000
-    @State var targetFrame:Int = 4500
+    @State var preTimer:Int = 3_000
+    @State var targetFrame:Int = 450_000
     @State var calibration:Int = 0
     @State var frameHit:Int = 0
     
-    @StateObject private var modelTimer = TimerViewModel()
     @StateObject private var model = PikaTimer()
     
     var body: some View {
@@ -130,13 +168,12 @@ struct PikaTimerView: View {
                         .font(.largeTitle)
                     HStack {
                         Image(systemName: "bell.fill")
-                        Text(modelTimer.completionDate, format: .dateTime.hour().minute())
+                        Text(model.completionDate, format: .dateTime.hour().minute())
                     }
                 }
             }
             .frame(width: 360, height: 255)
             .padding(.all, 32)
-            
             
             List{
                 HStack{
@@ -171,6 +208,7 @@ struct PikaTimerView: View {
 
                 Button("Start") {
                     print("Start")
+                    model.updateCompletionDate()
                     model.start(preTimer: preTimer, targetFrame: targetFrame, calibracion: calibration, steps: 6, maxSteps: 6)
                 }
                 .buttonStyle(StartButtonStyle())
