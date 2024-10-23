@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AudioToolbox
 
 extension Float {
     func rounded(toPlaces places: Int) -> Float {
@@ -46,54 +47,87 @@ class PikaTimer: ObservableObject {
     }
 
 
+    // Function to run the Pre-Timer, which counts up from 0 to maxSteps
     private func runPreTimer() {
-        print("Iniciando preTimer")
-
+        print("Starting preTimer")
+        
+        // Create the timer source for the preTimer using a global queue
         preTimerDS = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
+        
+        // Schedule the timer to fire every 500 milliseconds
         preTimerDS?.schedule(deadline: .now(), repeating: .milliseconds(500))
-        var stepCount = 0
+        var stepCount = 0  // Counter for tracking the steps of the preTimer
 
+        // Event handler for the timer, triggered at each interval
         preTimerDS?.setEventHandler { [weak self] in
             guard let self else { return }
-            
+
+            // Update the UI and step progress on the main thread
             DispatchQueue.main.async {
                 self.stepProgress = Float((Float(stepCount) / Float(self.maxSteps)).rounded(toPlaces: 2))
+                stepCount += 1  // Increment the step count
+                
+                // Play a beep sound for every step after the first one
+                if stepCount > 1 {
+                    self.playBeepSound()
+                }
             }
 
-            if stepCount >= self.maxSteps {
+            // If the stepCount reaches maxSteps, start the main timer and cancel the preTimer
+            if stepCount == self.maxSteps {
                 self.runMainTimer()
                 self.preTimerDS?.cancel()
             }
-            stepCount += 1
         }
-        // Asegúrate de reanudar el temporizador
-        print("Reanudando preTimer")
+
+        // Resume the preTimer to start the countdown
+        print("Resuming preTimer")
         preTimerDS?.resume()
     }
-    
-    private func runEndTimer(){
-        var endStepCount = self.maxSteps
-        
-        endTimerDS = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
-        endTimerDS?.schedule(deadline: .now(), repeating: .milliseconds(500))
 
+    // Function to run the End-Timer, which counts up from 0 to maxSteps, similar to the preTimer
+    private func runEndTimer(){
+        print("Starting EndTimer")
+        
+        // Reset step progress on the main thread when the endTimer starts
+        DispatchQueue.main.async {
+            self.stepProgress = 0
+        }
+
+        // Create the timer source for the endTimer using a global queue
+        endTimerDS = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.global())
+        
+        // Schedule the timer to fire every 500 milliseconds
+        endTimerDS?.schedule(deadline: .now(), repeating: .milliseconds(500))
+        var endStepCount = 0  // Counter for tracking the steps of the endTimer
+
+        // Event handler for the timer, triggered at each interval
         endTimerDS?.setEventHandler { [weak self] in
             guard let self else { return }
-            
+
+            // Update the UI and step progress on the main thread
             DispatchQueue.main.async {
                 self.stepProgress = Float((Float(endStepCount) / Float(self.maxSteps)).rounded(toPlaces: 2))
+                endStepCount += 1  // Increment the step count
+                
+                // Play a beep sound for every step after the first one
+                if endStepCount > 1 {
+                    self.playBeepSound()
+                }
             }
 
-            if stepProgress <= 0 {
+            // If the endStepCount reaches maxSteps, stop the endTimer and reset the state
+            if endStepCount == self.maxSteps {
                 self.endTimerDS?.cancel()
                 self.stop()
             }
-            endStepCount -= 1
-            print("stepProgress: \(stepProgress)")
         }
-        print("Reanudando EndTimer")
+
+        // Resume the endTimer to start the countdown
+        print("Resuming EndTimer")
         endTimerDS?.resume()
     }
+
 
     private func runMainTimer() {
         let totalTargetTime = targetFrame + calibracion
@@ -133,20 +167,13 @@ class PikaTimer: ObservableObject {
         preTimerDS?.cancel()
         mainTimerDS?.cancel()
         endTimerDS?.cancel()
-        self.millisecondsToCompletion = 0
-        self.progress = 0.0
-        self.stepProgress = 0.0
-        
-        completionDate = Date.now
 
-        self.preTimer = 0
-        self.targetFrame = 0
-        self.calibracion = 0
-        self.steps = 0
-        self.maxSteps  = 6
     }
     func updateCompletionDate() {
         completionDate = Date.now.addingTimeInterval(Double(self.targetFrame))
+    }
+    func playBeepSound() {
+        AudioServicesPlaySystemSound(1057)  // ID de sonido de beep
     }
 }
 

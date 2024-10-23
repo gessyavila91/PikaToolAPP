@@ -34,11 +34,11 @@ struct CircularProgressView: View {
                 .stroke(style: StrokeStyle(lineWidth: 15.0, lineCap: .round, lineJoin: .round))
                 .foregroundColor(Color("TimerButtonStep"))
                 .rotationEffect(Angle(degrees: 270))
-                .animation(.linear(duration: 0.5), value: stepProgress)
+                .animation(.linear(duration: 0.1), value: stepProgress)
                 .scaleEffect(0.9) // Hacer el círculo más pequeño
-                .transaction { transaction in
-                    transaction.animation = .linear(duration: 0.5)
-                }
+//                .transaction { transaction in
+//                    transaction.animation = .linear(duration: 0.5)
+//                }
         }
     }
 }
