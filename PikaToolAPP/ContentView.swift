@@ -13,6 +13,9 @@ struct ContentView: View {
             Tab("PikaTimer", systemImage: "stopwatch") {
                 PikaTimerView()
             }
+            Tab("Config",systemImage: "folder.fill.badge.gearshape"){
+                SettingsVew()
+            }
         }
     }
 }
