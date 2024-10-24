@@ -37,9 +37,9 @@ struct RootSettingView: View {
         case "Timer":
             TimerSettingsView(timerSettings: timerSettings)
         case "Profiles":
-            ProfilesSettingsView()
+            ProfilesSettingsView(profileManager: ProfileManager())
         case "Theme":
-            ProfilesSettingsView()
+            ActionSettingsView()
         default:
             RootSettingView(viewToDisplay: "")
         }
@@ -73,12 +73,6 @@ struct SettingsVew: View {
         } detail: {
             ContentUnavailableView("Select an element from the sidebar", systemImage: "doc.text.image.fill")
         }
-    }
-}
-
-struct ProfilesSettingsView: View {
-    var body: some View {
-        Text("Action Settings View")
     }
 }
 
