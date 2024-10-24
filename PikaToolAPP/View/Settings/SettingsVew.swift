@@ -8,26 +8,71 @@
 import SwiftUI
 import Foundation
 
-struct SettingsVew: View {
-    @StateObject var timerSettings = TimerSettingsStruct.default
+struct Setting: Hashable {
+    let title: String
+    let color: Color
+    let imageName: String
+}
 
+struct SettingImage: View {
+    let color: Color
+    let imageName: String
+    
+    var body: some View {
+        Image(systemName: imageName)
+            .resizable()
+            .foregroundStyle(color)
+            .frame(width: 25, height: 25)
+    }
+}
+
+struct RootSettingView: View {
+    let viewToDisplay: String
+    @StateObject var timerSettings = TimerSettingsStruct.default
+    
+    var body: some View {
+        switch viewToDisplay {
+        case "Action":
+            ActionSettingsView(selectedActionSound: .constant(.default))
+        case "Timer":
+            TimerSettingsView(timerSettings: timerSettings)
+        case "Profiles":
+            ProfilesSettingsView()
+        case "Theme":
+            ProfilesSettingsView()
+        default:
+            RootSettingView(viewToDisplay: "")
+        }
+    }
+}
+
+
+struct SettingsVew: View {
+    let settings: Array<Setting> = [
+        Setting(title: "Action", color: .timerButtonStep, imageName: "square.and.arrow.up.circle"),
+        Setting(title: "Timer", color: .timerButtonCancel, imageName: "slider.horizontal.2.arrow.trianglehead.counterclockwise"),
+        Setting(title: "Theme", color: .green, imageName: "paintpalette.fill"),
+        Setting(title: "Profiles", color: .blue, imageName: "person.crop.rectangle.stack.fill")
+    ]
+    
     var body: some View {
         NavigationSplitView {
             List {
-                NavigationLink("Action", destination: ActionSettingsView(
-                    selectedActionSound: .constant(.default)
-                ))
-                NavigationLink("Timer", destination: TimerSettingsVew(timerSettings: timerSettings))
-                Spacer()
-                NavigationLink("Profiles", destination: ProfilesSettingsVew())
+                ForEach(settings, id: \.self) { setting in
+                    NavigationLink(destination: RootSettingView(viewToDisplay: setting.title)) {
+                        HStack {
+                            SettingImage(color: setting.color, imageName: setting.imageName)
+                            Text(setting.title)
+                        }
+                    }
+                }
             }
-            .navigationTitle("Sidebar")
+            .navigationTitle("PikaSettings")
         } detail: {
             ContentUnavailableView("Select an element from the sidebar", systemImage: "doc.text.image.fill")
         }
     }
 }
-
 
 struct ActionSettingsStruct {
     var actionSound = ActionSound_Enum.BEEP
@@ -115,8 +160,7 @@ class TimerSettingsStruct: ObservableObject {
     }
 }
 
-
-struct TimerSettingsVew: View {
+struct TimerSettingsView: View {
     @ObservedObject var timerSettings: TimerSettingsStruct
     
     var body: some View {
@@ -133,11 +177,15 @@ struct TimerSettingsVew: View {
     }
 }
 
-
-
-struct ProfilesSettingsVew: View {
+struct ProfilesSettingsView: View {
     var body: some View {
         Text("Action Settings View")
+    }
+}
+
+struct ThemeSettingsView: View {
+    var body: some View {
+        Text("Theme Settings View")
     }
 }
 
