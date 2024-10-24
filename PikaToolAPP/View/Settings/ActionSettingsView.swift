@@ -184,7 +184,7 @@ struct ActionSettingsView: View {
                         Text(sound.stringValue()).tag(sound)
                     }
                 }
-                .onChange(of: selectedActionSound) { newSound in
+                .onChange(of: selectedActionSound){ oldSound, newSound in
                     selectedSoundId = newSound.rawValue
                     playBeepSound(soundId: newSound.rawValue)
                 }
