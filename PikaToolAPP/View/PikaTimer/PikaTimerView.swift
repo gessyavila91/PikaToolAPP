@@ -16,6 +16,8 @@ extension Float {
 }
 
 class PikaTimer: ObservableObject {
+    @AppStorage("selectedActionSound") private var selectedSoundId: Int = ActionSettingsStruct.ActionSound_Enum.TINK.rawValue
+    
     @Published var millisecondsToCompletion: Int = 0
     @Published var progress: Float = 0.0
     @Published var stepProgress: Float = 0.0
@@ -150,7 +152,7 @@ class PikaTimer: ObservableObject {
         completionDate = Date.now.addingTimeInterval(Double(self.targetFrame))
     }
     func playBeepSound() {
-        AudioServicesPlaySystemSound(1057)  // ID de sonido de beep
+        AudioServicesPlaySystemSound(SystemSoundID(selectedSoundId))
     }
 }
 

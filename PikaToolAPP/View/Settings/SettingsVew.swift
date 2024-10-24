@@ -33,7 +33,7 @@ struct RootSettingView: View {
     var body: some View {
         switch viewToDisplay {
         case "Action":
-            ActionSettingsView(selectedActionSound: .constant(.default))
+            ActionSettingsView()
         case "Timer":
             TimerSettingsView(timerSettings: timerSettings)
         case "Profiles":
