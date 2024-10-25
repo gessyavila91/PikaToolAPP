@@ -189,7 +189,7 @@ struct PikaTimerView: View {
     @State private var showProfileModal = false
     
     @AppStorage("selectedProfileId") private var selectedProfileIdString: String = UUID().uuidString
-    @State private var selectedProfile: UserProfile = UserProfile(id: UUID(), profileName: "DefaultProfile", soundSetting: 1000, otherSetting: true)
+    @State private var selectedProfile: UserProfile = UserProfile(id: UUID(), profileName: "DefaultProfile")
     
     @State private var showProfileSelectionModal = false
     

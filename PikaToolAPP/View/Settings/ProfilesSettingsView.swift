@@ -11,25 +11,25 @@ import SwiftUI
 struct UserProfile: Identifiable, Codable {
     var id: UUID
     var profileName: String
-    var soundSetting: Int
-    var otherSetting: Bool
+    var preTimer:Int = 3_000
+    var targetFrame:Int = 10_000
+    var calibration:Int = 0
+    var imageName:String = "poke"
+    
+    var frameHit:Int = 0
 }
-
-import SwiftUI
 
 class ProfileManager: ObservableObject {
     @Published var profiles: [UserProfile] = []
-
     @AppStorage("storedProfilesData") private var storedProfilesData: Data?
 
     init() {
         loadProfilesFromAppStorage()
-        
         // Agregar perfiles predeterminados si no hay perfiles almacenados
         if profiles.isEmpty {
             let defaultProfiles = [
-                UserProfile(id: UUID(), profileName: "DefaultProfile", soundSetting: 1000, otherSetting: true),
-                UserProfile(id: UUID(), profileName: "SilentProfile", soundSetting: 0, otherSetting: false)
+                UserProfile(id: UUID(), profileName: "DefaultProfile"),
+                UserProfile(id: UUID(), profileName: "SilentProfile")
             ]
             profiles.append(contentsOf: defaultProfiles)
         }
@@ -61,69 +61,95 @@ class ProfileManager: ObservableObject {
     }
 }
 
-
-
-
-struct CreateProfileModal: View {
-    @ObservedObject var profileManager: ProfileManager
-    @State private var profileName: String = ""
-    @State private var soundSetting: Int = 1000
-    @State private var otherSetting: Bool = false
-
-    var body: some View {
-        VStack {
-            TextField("Profile Name", text: $profileName)
-                .padding()
-
-            Picker("Sound Setting", selection: $soundSetting) {
-                Text("Option 1").tag(1000)
-                Text("Option 2").tag(1001)
-            }
-            .padding()
-
-            Toggle("Other Setting", isOn: $otherSetting)
-                .padding()
-
-            Button("Save") {
-                let newProfile = UserProfile(id: UUID(), profileName: profileName, soundSetting: soundSetting, otherSetting: otherSetting)
-                profileManager.saveProfile(newProfile)
-            }
-        }
-    }
-}
-
 struct AddProfileModal: View {
     @Binding var isPresented: Bool
-    @Binding var profiles: [UserProfile]
-    @State private var newProfileName: String = ""
+    
+    @ObservedObject var profileManager = ProfileManager()
+    
+    @State var profileName: String = "newProfile Name"
+    @State var preTimer: Int = 3000
+    @State var targetFrame: Int = 10_000
+    @State var calibration: Int = 0
+    @State var imageName: String = "Poke"
+
+    @State private var otherSetting: Bool = false
     
     var body: some View {
         VStack {
-            TextField("Enter Profile Name", text: $newProfileName)
-            Button("Save Profile") {
-                let newProfile = UserProfile(id: UUID(), profileName: newProfileName, soundSetting: 1000, otherSetting: true)
-                profiles.append(newProfile)
-                isPresented = false // Cierra el modal
+            HStack{
+                Text("Profile Name")
+                TextField("Profile Name", text: $profileName)
+                    .textFieldStyle(.roundedBorder)
+                    .keyboardType(.numberPad)
+                    .padding()
             }
-            Button("Cancel") {
-                isPresented = false
+            HStack{
+                Text("Image Icon")
+                TextField("Image Icon", text: $imageName)
+                    .textFieldStyle(.roundedBorder)
+                    .keyboardType(.numberPad)
+                    .padding()
             }
+            HStack{
+                Text("Pre Timer")
+                TextField("Pre Timer", value: $preTimer, format: .number)
+                    .textFieldStyle(.roundedBorder)
+                    .keyboardType(.numberPad)
+                    .padding()
+            }
+            HStack{
+                Text("Target Frame")
+                TextField("Target Frame", value: $targetFrame, format: .number)
+                    .textFieldStyle(.roundedBorder)
+                    .keyboardType(.numberPad)
+                    .padding()
+            }
+            HStack{
+                Text("Calibration")
+                TextField("Calibration", value: $calibration, format: .number)
+                    .textFieldStyle(.roundedBorder)
+                    .keyboardType(.numberPad)
+                    .padding()
+            }
+            HStack{
+                Button("Cancel") {
+                    isPresented = false
+                }.buttonStyle(.bordered)
+                Spacer()
+                Button("Save Profile") {
+                    let newProfile = UserProfile(
+                        id: UUID(),
+                        profileName: profileName,
+                        preTimer:preTimer,
+                        targetFrame:targetFrame,
+                        calibration:calibration,
+                        imageName:imageName
+                    )
+                    profileManager.saveProfile(newProfile)
+                    isPresented = false // Cierra el modal
+                }.buttonStyle(.bordered)
+            }
+            
         }
         .padding()
     }
 }
 
 struct ProfilesSettingsView: View {
-    @ObservedObject var profileManager: ProfileManager  // Se necesita que sea ObservedObject y no StateObject si se pasa desde fuera
-    @State private var newProfileName: String = ""
+    // Se necesita que sea ObservedObject y no StateObject si se pasa desde fuera
+    @ObservedObject var profileManager: ProfileManager
+    @State private var showModal = false
 
     var body: some View {
         VStack {
             HStack {
-                TextField("New Profile Name", text: $newProfileName)
-                Button("Add Profile") {
-                    let newProfile = UserProfile(id: UUID(), profileName: newProfileName, soundSetting: 1000, otherSetting: true)
-                    profileManager.saveProfile(newProfile)
+                Button(action: {
+                    self.showModal = true
+                }) {
+                    Text("CreateNewProfile")
+                }
+                .fullScreenCover(isPresented: $showModal) {
+                    AddProfileModal(isPresented: $showModal)
                 }
             }
             .padding()
@@ -136,6 +162,10 @@ struct ProfilesSettingsView: View {
     }
 }
 
+#Preview {
+    @Previewable @State var showModal:Bool = true
+    return AddProfileModal(isPresented: $showModal)
+}
 #Preview {
     ProfilesSettingsView(profileManager: ProfileManager())
 }
