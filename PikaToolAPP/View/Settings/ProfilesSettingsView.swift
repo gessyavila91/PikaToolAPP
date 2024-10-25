@@ -49,46 +49,98 @@ class ProfileManager: ObservableObject {
             profiles = decodedProfiles
         }
     }
-    
+
     func saveProfile(_ profile: UserProfile) {
         profiles.append(profile)
-        saveProfilesToAppStorage()  // Guardar al AppStorage
+        saveProfilesToAppStorage()
     }
 
     func deleteProfile(_ profile: UserProfile) {
-        profiles = profiles.filter { $0.id != profile.id }
-        saveProfilesToAppStorage()  // Guardar cambios
+        profiles.removeAll { $0.id == profile.id }
+        saveProfilesToAppStorage()
     }
 }
+class ProfileManagerBU: ObservableObject {
+    @Published var profiles: [UserProfile] = []
+    
+    @AppStorage("storedProfiles") private var storedProfilesData: Data?
+
+    init() {
+        // Agregar perfiles predeterminados si no hay perfiles almacenados
+        if profiles.isEmpty {
+            let defaultProfiles = [
+                UserProfile(id: UUID(), profileName: "DefaultProfile"),
+                UserProfile(id: UUID(), profileName: "SilentProfile")
+            ]
+            profiles.append(contentsOf: defaultProfiles)
+        }
+
+        loadProfilesFromAppStorage()
+    }
+
+    func saveProfile(_ profile: UserProfile) {
+        profiles.append(profile)
+        saveProfilesToAppStorage()
+    }
+
+    func deleteProfile(_ profile: UserProfile) {
+        profiles.removeAll { $0.id == profile.id }
+        saveProfilesToAppStorage()
+    }
+
+    private func saveProfilesToAppStorage() {
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(profiles) {
+            storedProfilesData = encoded
+        }
+    }
+
+    private func loadProfilesFromAppStorage() {
+        let decoder = JSONDecoder()
+        if let storedData = storedProfilesData,
+           let decodedProfiles = try? decoder.decode([UserProfile].self, from: storedData) {
+            profiles = decodedProfiles
+        }
+    }
+}
+
 
 struct AddProfileModal: View {
     @Binding var isPresented: Bool
     
-    @ObservedObject var profileManager = ProfileManager()
+    @ObservedObject var profileManager: ProfileManager
     
     @State var profileName: String = "newProfile Name"
     @State var preTimer: Int = 3000
     @State var targetFrame: Int = 10_000
     @State var calibration: Int = 0
-    @State var imageName: String = "Poke"
-
-    @State private var otherSetting: Bool = false
+    @State var imageName: String = "poke"
     
+    @State private var otherSetting: Bool = false
+    @State private var selectedImage: String = "poke" // Cambiar según los nombres de tus imágenes
+    let availableImages = ["poke", "dive", "dream"] // Lista de nombres de imágenes
+
     var body: some View {
         VStack {
             HStack{
                 Text("Profile Name")
                 TextField("Profile Name", text: $profileName)
                     .textFieldStyle(.roundedBorder)
-                    .keyboardType(.numberPad)
                     .padding()
             }
             HStack{
                 Text("Image Icon")
-                TextField("Image Icon", text: $imageName)
-                    .textFieldStyle(.roundedBorder)
-                    .keyboardType(.numberPad)
-                    .padding()
+                Spacer()
+                Picker("Select Image", selection: $selectedImage) {
+                    ForEach(availableImages, id: \.self) { image in
+                        HStack{
+                            Image(image)
+                            Text(image).tag(image)
+                        }
+                    }
+                }
+                .pickerStyle(.menu)
+                .padding()
             }
             HStack{
                 Text("Pre Timer")
@@ -117,55 +169,78 @@ struct AddProfileModal: View {
                 }.buttonStyle(.bordered)
                 Spacer()
                 Button("Save Profile") {
-                    let newProfile = UserProfile(
-                        id: UUID(),
-                        profileName: profileName,
-                        preTimer:preTimer,
-                        targetFrame:targetFrame,
-                        calibration:calibration,
-                        imageName:imageName
-                    )
+                    let newProfile = UserProfile(id: UUID(), profileName: profileName,imageName: selectedImage)
                     profileManager.saveProfile(newProfile)
                     isPresented = false // Cierra el modal
                 }.buttonStyle(.bordered)
             }
-            
         }
         .padding()
     }
 }
 
+
 struct ProfilesSettingsView: View {
-    // Se necesita que sea ObservedObject y no StateObject si se pasa desde fuera
     @ObservedObject var profileManager: ProfileManager
     @State private var showModal = false
-
+    @State private var selectedProfile: UserProfile?
+    
     var body: some View {
         VStack {
             HStack {
                 Button(action: {
                     self.showModal = true
                 }) {
-                    Text("CreateNewProfile")
+                    Text("Create New Profile")
                 }
                 .fullScreenCover(isPresented: $showModal) {
-                    AddProfileModal(isPresented: $showModal)
+                    AddProfileModal(isPresented: $showModal, profileManager: profileManager)
                 }
             }
             .padding()
 
             // Lista de perfiles
             List(profileManager.profiles) { profile in
-                Text(profile.profileName)
+                HStack {
+                    Image(profile.imageName) // Muestra el icono asociado
+                    Spacer()
+                    Text(profile.profileName)
+                }
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    selectedProfile = profile
+                }
+                .swipeActions {
+                    Button(role: .destructive) {
+                        profileManager.deleteProfile(profile)
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+                    Button {
+                        selectedProfile = profile
+                        showModal = true
+                    } label: {
+                        Label("Edit", systemImage: "pencil")
+                    }
+                }
             }
+        }
+        .sheet(item: $selectedProfile) { profile in
+            // Modal para editar perfil
+            AddProfileModal(isPresented: $showModal, profileManager: profileManager)
         }
     }
 }
 
+
 #Preview {
-    @Previewable @State var showModal:Bool = true
-    return AddProfileModal(isPresented: $showModal)
+    @State var showModal: Bool = true
+    let previewProfileManager = ProfileManager() // Instancia simple
+
+    AddProfileModal(isPresented: $showModal, profileManager: previewProfileManager)
 }
 #Preview {
-    ProfilesSettingsView(profileManager: ProfileManager())
+    let previewProfileManager = ProfileManager() // Instancia simple
+
+    ProfilesSettingsView(profileManager: previewProfileManager)
 }
