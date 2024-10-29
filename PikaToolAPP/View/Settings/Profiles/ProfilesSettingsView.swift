@@ -8,63 +8,10 @@
 import Foundation
 import SwiftUI
 
-class ProfileManager: ObservableObject {
-    @Published var profiles: [UserProfile] = []
-    @AppStorage("storedProfilesData") private var storedProfilesData: Data?
-
-    init() {
-        loadProfilesFromAppStorage()
-        if profiles.isEmpty {
-            let defaultProfiles = [
-                UserProfile(id: UUID(), profileName: "DefaultProfile"),
-                UserProfile(id: UUID(), profileName: "SilentProfile")
-            ]
-            profiles.append(contentsOf: defaultProfiles)
-        }
-    }
-
-    func saveProfilesToAppStorage() {
-        let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode(profiles) {
-            storedProfilesData = encoded
-        }
-    }
-
-    func loadProfilesFromAppStorage() {
-        let decoder = JSONDecoder()
-        if let storedData = storedProfilesData,
-           let decodedProfiles = try? decoder.decode([UserProfile].self, from: storedData) {
-            profiles = decodedProfiles
-        }
-    }
-
-    func saveProfile(_ profile: UserProfile) {
-        profiles.append(profile)
-        saveProfilesToAppStorage()
-    }
-    
-    // Nueva función para actualizar el perfil
-    func updateProfile(id: UUID, newProfileName: String, newImageName: String, newPreTimer: Int, newTargetFrame: Int, newCalibration: Int) {
-        if let index = profiles.firstIndex(where: { $0.id == id }) {
-            profiles[index].profileName = newProfileName
-            profiles[index].imageName = newImageName
-            profiles[index].preTimer = newPreTimer
-            profiles[index].targetFrame = newTargetFrame
-            profiles[index].calibration = newCalibration
-            saveProfilesToAppStorage()
-        }
-    }
-
-    func deleteProfile(_ profile: UserProfile) {
-        profiles.removeAll { $0.id == profile.id }
-        saveProfilesToAppStorage()
-    }
-}
-
 struct ProfilesSettingsView: View {
     @ObservedObject var profileManager: ProfileManager
     @State private var showModal = false
-    @State private var selectedProfile: UserProfile? // El perfil que se va a editar
+    @State private var selectedProfile: UserProfileModel? // El perfil que se va a editar
 
     var body: some View {
         VStack {

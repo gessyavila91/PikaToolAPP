@@ -5,12 +5,13 @@
 //  Created by Gessy Avila on 29/10/24.
 //
 
+import Foundation
 import SwiftUI
 
 struct AddProfileModal: View {
     @Binding var isPresented: Bool
     @ObservedObject var profileManager: ProfileManager
-    @State var selectedProfile: UserProfile? // El perfil que se está editando
+    @State var selectedProfile: UserProfileModel? // El perfil que se está editando
     
     @State var profileName: String = "New Profile Name"
     @State var preTimer: Int = 3000
@@ -90,7 +91,7 @@ struct AddProfileModal: View {
                         profileManager.updateProfile(id: selectedProfile.id, newProfileName: profileName, newImageName: selectedImage, newPreTimer: preTimer, newTargetFrame: targetFrame, newCalibration: calibration)
                     } else {
                         // Crear un nuevo perfil
-                        let newProfile = UserProfile(id: UUID(), profileName: profileName, preTimer: preTimer,targetFrame: targetFrame,calibration: calibration,imageName: selectedImage)
+                        let newProfile = UserProfileModel(id: UUID(), profileName: profileName, preTimer: preTimer,targetFrame: targetFrame,calibration: calibration,imageName: selectedImage)
                         profileManager.saveProfile(newProfile)
                     }
                     isPresented = false // Cerrar modal

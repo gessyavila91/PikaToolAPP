@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserProfile: Identifiable, Codable {
+struct UserProfileModel: Identifiable, Codable {
     var id: UUID
     var profileName: String
     var preTimer:Int = 3_000
@@ -17,4 +17,3 @@ struct UserProfile: Identifiable, Codable {
     
     var frameHit:Int = 0
 }
-
