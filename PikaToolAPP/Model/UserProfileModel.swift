@@ -8,7 +8,7 @@
 import Foundation
 
 struct UserProfileModel: Identifiable, Codable {
-    var id: UUID
+    var id: UUID = UUID()
     var profileName: String
     var preTimer:Int = 3_000
     var targetFrame:Int = 10_000

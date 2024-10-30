@@ -54,6 +54,15 @@ class ProfileManager: ObservableObject {
             saveProfilesToAppStorage()
         }
     }
+    
+    func getProfile(profileName: String) -> UserProfileModel?{
+        if let index = profiles.firstIndex(where: { $0.profileName == profileName }) {
+            print(profiles[index].profileName)
+            return profiles[index]
+        }else{
+            return nil
+        }
+    }
 
     func deleteProfile(_ profile: UserProfileModel) {
         profiles.removeAll { $0.id == profile.id }
